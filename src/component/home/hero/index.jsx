@@ -5,8 +5,9 @@ import PromoteCard from './searchbox/branner';
 const Hero = ({ id }) => {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const images = [
-        { url: '/image/pexels-binyamin-mellish-106399.jpg', id: 1 },
-        { url: '/image/Stock-Modern-House-In-Twilight-AdobeStock-368976934-copy.jpg', id: 2 },
+        { url: '/image/Stock-Modern-House-In-Twilight-AdobeStock-368976934-copy.jpg', id: 1 },
+        { url: '/image/pngtree-d-rendering-of-a-cozy-living-room-in-a-house-or-picture-image_5591775.jpg', id: 2 },
+        { url: '/image/pngtree-d-rendering-of-a-scandinavian-farmhouse-living-room-with-classic-charm-image_13546375.png', id: 3}
     ];
 
 
@@ -23,21 +24,21 @@ const Hero = ({ id }) => {
     }, [images.length]);
 
     // ฟังก์ชันสำหรับเปลี่ยนรูปด้วยปุ่ม
-    const goToSlide = (index) => {
-        setCurrentImageIndex(index);
-    };
+    // const goToSlide = (index) => {
+    //     setCurrentImageIndex(index);
+    // };
 
-    const nextSlide = () => {
-        setCurrentImageIndex((prevIndex) =>
-            prevIndex === images.length - 1 ? 0 : prevIndex + 1
-        );
-    };
+    // const nextSlide = () => {
+    //     setCurrentImageIndex((prevIndex) =>
+    //         prevIndex === images.length - 1 ? 0 : prevIndex + 1
+    //     );
+    // };
 
-    const prevSlide = () => {
-        setCurrentImageIndex((prevIndex) =>
-            prevIndex === 0 ? images.length - 1 : prevIndex - 1
-        );
-    };
+    // const prevSlide = () => {
+    //     setCurrentImageIndex((prevIndex) =>
+    //         prevIndex === 0 ? images.length - 1 : prevIndex - 1
+    //     );
+    // };
 
     return (
         <section id={id}>
@@ -47,7 +48,7 @@ const Hero = ({ id }) => {
                     {images.map((image, index) => (
                         <div
                             key={image.id}
-                            className={`absolute inset-0 transition-opacity duration-1000 ${index === currentImageIndex ? 'opacity-100' : 'opacity-0'
+                            className={` absolute inset-0 transition-opacity duration-1000 ${index === currentImageIndex ? 'opacity-100' : 'opacity-0'
                                 }`}
                             style={{
                                 backgroundImage: `url(${image.url})`,
@@ -58,7 +59,7 @@ const Hero = ({ id }) => {
                         />
                     ))}
                     {/* Dark Overlay */}
-                    <div className="absolute inset-0 bg-black/50" />
+                    <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
                 </div>
 
                 {/* Navigation Arrows */}
@@ -90,7 +91,7 @@ const Hero = ({ id }) => {
                 {/* Content */}
                 <div className="relative h-full flex flex-col justify-center">
                     <div className="container mx-auto px-4 text-center">
-                        <h1 className="text-5xl font-bold text-white mb-4 flex justify-center items-center">
+                        <h1 className="md:text-5xl text-3xl font-bold text-white md:m-5 flex justify-center items-center">
                             <span>Find Your</span>
                             {/* Animated Words Container */}
                             <div className="relative mx-4 overflow-hidden">
@@ -105,8 +106,8 @@ const Hero = ({ id }) => {
                             </div>
                         </h1>
 
-                        <p className="text-white text-lg mb-12 max-w-2xl mx-auto">
-                            เราจะช่วยคุณค้นหาที่อยู่อาศัยในฝันของคุณ
+                        <p className="text-white md:text-sm text-xs md:mb-10 my-5 max-w-3xl mx-auto">
+                            เราจะช่วยคุณค้นหาบ้านที่ดีที่สุดให้คุณ
                             มาค้นหาบ้านในฝันของคุณกันเถอะ!
                         </p>
 

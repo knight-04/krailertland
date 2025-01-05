@@ -1,16 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Heart, ChevronLeft, ChevronRight, MapPin } from 'lucide-react';
 import { properties } from '../../../mockdata/mockproperty';
 
 const PropertyCardCarousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isLiked, setIsLiked] = useState(false);
 
   if (!properties || properties.length === 0) {
     return null;
   }
 
   const property = properties[currentIndex];
+
+
+  useEffect(() => {
+    console.log('Current Index:', currentIndex);
+    const interval = setInterval(() => {
+      setCurrentIndex((prevIndex) =>
+        prevIndex === properties.length - 1 ? 0 : prevIndex + 1
+      );
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [properties.length]);
+
 
   const next = () => {
     setCurrentIndex((prevIndex) =>
@@ -48,7 +60,7 @@ const PropertyCardCarousel = () => {
           <div className="md:w-2/5 w-full md:p-10 p-3 flex flex-col">
 
             {/* Property Info */}
-            <div className="md:space-y-10 space-y-1">
+            <div className="md:space-y-10 space-y-5">
               <div>
                 <h2 className="md:text-2xl text-xl font-bold text-gray-800 ">{property.title}</h2>
                 <p className="text-gray-600 text-sm mt-1">เปิดจองโครงการแล้ววันนี้</p>
@@ -56,7 +68,7 @@ const PropertyCardCarousel = () => {
 
               <h3 className="md:text-xl text-lg font-bold text-gray-800  ">เริ่มต้น {property.price} ล้านบาท</h3>
               <p className="text-gray-700 text-sm">@ {property.address}</p>
-              <div className="relative h-0.5 bg-gradient-to-r from-gray-900/50 via-amber-200 to-gray-900/50 rounded-full animate-pulse" />
+              <div className="hidden md:block relative h-0.5 bg-gradient-to-r from-gray-900/50 via-amber-200 to-gray-900/50 rounded-full animate-pulse" />
 
               <button className="w-full px-6 py-2 hover:animate-none animate-pulse hover:from-yellow-500/50 hover:bg-gradient-to-r hover:text-amber-600 
               rounded-full bg-gray-50  hover:to-yellow-500/50 hover:via-amber-50 text-yellow-600/50
@@ -84,13 +96,16 @@ const PropertyCardCarousel = () => {
       </button>
 
       {/* Carousel Indicators */}
-      <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 flex space-x-2">
+      <div className="absolute -bottom-5 left-1/2 transform -translate-x-1/2 flex space-x-2">
         {properties.map((_, index) => (
           <button
             key={index}
             onClick={() => setCurrentIndex(index)}
-            className={`w-2 h-2 rounded-full transition-colors ${index === currentIndex ? 'bg-amber-500' : 'bg-gray-300'
+            className={`w-2 h-2 rounded-full transition-colors  ${index === currentIndex ? 'bg-amber-500' : 'bg-gray-300'
               }`}
+            style={{
+              
+            }}
           />
         ))}
       </div>
