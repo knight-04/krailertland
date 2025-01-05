@@ -1,5 +1,5 @@
 import React from 'react';
-import LogoKL from '../../../../public/image/Screenshot 2567-12-25 at 21.37.16.png'
+import LogoKL from '../../../../../public/image/Screenshot 2567-12-25 at 21.37.16.png'
 
 const Logo = () => {
   return (

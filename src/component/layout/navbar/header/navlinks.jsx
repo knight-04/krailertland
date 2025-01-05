@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X,  } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 
-const NavLinks = () => {
+const NavLinks = ({ openRegisterModal }) => {  // รับ prop openRegisterModal
   const [isSticky, setIsSticky] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
   const [isOpen, setIsOpen] = useState(false);
@@ -44,6 +44,12 @@ const NavLinks = () => {
   }, []);
 
   const scrollToSection = (sectionId) => {
+    if (sectionId === '') {  // ปุ่มลงทะเบียนในเมนูมือถือ
+      openRegisterModal();  // ใช้ function ที่รับมาจาก prop
+      setIsOpen(false);
+      return;
+    }
+
     if (sectionId === 'contact') {
       const footer = document.querySelector('footer');
       footer?.scrollIntoView({ behavior: 'smooth' });
@@ -111,8 +117,7 @@ const NavLinks = () => {
 
         {/* Full Screen Menu Container */}
         {isOpen && (
-          <div className="fixed inset-0 bg-gray-900 backdrop-blur-sm z-[100]"> 
-            {/* Header with Close Button */}
+          <div className="fixed inset-0 bg-gray-900 backdrop-blur-sm z-[100]">
             <div className="flex justify-between items-center p-4 border-b">
               <div className="w-32">
                 {/* Logo */}
@@ -125,7 +130,6 @@ const NavLinks = () => {
               </button>
             </div>
 
-            {/* Menu Items - ย้าย z-index ไปที่ container หลัก */}
             <div className="bg-gray-900/80 backdrop-blur-sm shadow-lg">
               {mobileLinks.map((link) => (
                 <button
