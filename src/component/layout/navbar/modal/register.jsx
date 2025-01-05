@@ -5,7 +5,7 @@ const RegisterModal = ({ isOpen, onClose, formData, onChange, onSubmit }) => {
     return (
       <div
         className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-40"
-        onClick={onClose}
+        //onClick={onClose}
       >
         <div
           className="bg-white rounded-lg w-full max-w-md mx-4 p-6"
