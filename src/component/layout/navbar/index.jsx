@@ -34,8 +34,8 @@ const Navbar = () => {
     setFormData({ name: '', age: '', plan: '' });
   };
 
-  const openRegisterModal = () => {  
-    setFormData({ name: '', age: '', plan: '' });  
+  const openRegisterModal = () => {
+    setFormData({ name: '', age: '', plan: '' });
     setShowRegisterModal(true);
   };
 
@@ -43,16 +43,23 @@ const Navbar = () => {
     <>
       <nav className="relative z-10 bg-white">
         <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between py-4">
+          <div className="flex items-center py-2">
             <Logo />
-            <NavLinks openRegisterModal={openRegisterModal} />
-            <AuthButtons openRegisterModal={openRegisterModal} />
+            {/* ใช้ ml-auto เพื่อดัน items ที่เหลือไปทางขวา */}
+            <div className="ml-auto flex items-center">
+              <div className="order-3 sm:order-2">
+                <NavLinks openRegisterModal={openRegisterModal} />
+              </div>
+              <div className="order-2 sm:order-3">
+                <AuthButtons openRegisterModal={openRegisterModal} />
+              </div>
+            </div>
           </div>
         </div>
       </nav>
 
       {/* Modals */}
-      <RegisterModal 
+      <RegisterModal
         isOpen={showRegisterModal}
         onClose={() => setShowRegisterModal(false)}
         formData={formData}
@@ -60,7 +67,7 @@ const Navbar = () => {
         onSubmit={handleSubmit}
       />
 
-      <SuccessToast 
+      <SuccessToast
         isOpen={showToast}
         onClose={closeToast}
       />

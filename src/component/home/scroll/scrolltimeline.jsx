@@ -1,6 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState } from 'react';
 import { timelineData } from '../../mockdata/mockproperty';
-
 
 const TimelineItem = ({ period, index, isHovered }) => (
   <div className="flex-none w-96">
@@ -17,7 +16,7 @@ const TimelineItem = ({ period, index, isHovered }) => (
     {/* Content Card */}
     <div className={`transition-all duration-500 rounded-xl
       ${isHovered
-        ? 'bg-white/95 p-8 -translate-y-2 '
+        ? 'bg-white/95 p-8 -translate-y-2'
         : 'p-6 hover:bg-white/50'
       }`}
     >
@@ -67,31 +66,33 @@ const TimelineItem = ({ period, index, isHovered }) => (
 );
 
 const Timeline = ({ id }) => {
-
   const [hoveredIndex, setHoveredIndex] = useState(null);
-  const scrollRef = useRef(null);
+  const [isPaused, setIsPaused] = useState(false);
 
-  useEffect(() => {
-    const scrollElement = scrollRef.current;
-    if (!scrollElement) return; 
+  // Calculate total width for animation
+  const totalItems = timelineData.length * 2; // Double for the repeated items
+  const itemWidth = 384; // w-96 = 24rem = 384px
+  const totalWidth = totalItems * itemWidth;
+  
+  const handleTouchStart = (index) => {
+    if (hoveredIndex === index) {
+      // If tapping the same item again, toggle pause state
+      setIsPaused(!isPaused);
+      setHoveredIndex(null);
+    } else {
+      // First tap on an item
+      setHoveredIndex(index);
+      setIsPaused(true);
+    }
+  };
 
-    const scroll = () => {
-      if (scrollElement.scrollLeft >= scrollElement.scrollWidth / 2) {
-        scrollElement.scrollLeft = 0;
-      } else {
-        scrollElement.scrollLeft += 1;
-      }
-    };
-
-    const interval = setInterval(scroll, 20);
-
-    return () => clearInterval(interval);
-  }, []);
   return (
     <section id={id} className="relative bg-gradient-to-b from-gray-50 to-white py-24">
       <div className="container mx-auto px-4">
         <div className="text-center space-y-5 mb-20">
-          <h3 className='text-amber-500 font-medium tracking-wide uppercase letter-spacing-2'>ผลงานที่ผ่านมา</h3>
+          <h3 className="text-amber-500 font-medium tracking-wide uppercase letter-spacing-2">
+            ผลงานที่ผ่านมา
+          </h3>
           <h2 className="text-4xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 text-transparent bg-clip-text">
             ความสำเร็จของเรา
           </h2>
@@ -102,12 +103,37 @@ const Timeline = ({ id }) => {
             <div className="relative top-3 left-0 right-0 h-0.5 bg-gradient-to-r from-gray-200 via-amber-200 to-gray-200" />
           </div>
 
-          <div className="flex animate-scroll hover:animation-play-state-paused w-max">
+          <style jsx>{`
+            @keyframes scroll {
+              0% {
+                transform: translateX(0);
+              }
+              100% {
+                transform: translateX(-${totalWidth/2}px);
+              }
+            }
+            .timeline-scroll {
+              animation: scroll 60s linear infinite;
+            }
+            .timeline-scroll.paused {
+              animation-play-state: paused;
+            }
+          `}</style>
+
+          <div 
+            className={`flex w-max timeline-scroll ${isPaused ? 'paused' : ''}`}
+            onMouseEnter={() => setIsPaused(true)}
+            onMouseLeave={() => {
+              setIsPaused(false);
+              setHoveredIndex(null);
+            }}
+          >
             {[...timelineData, ...timelineData].map((period, index) => (
               <div
                 key={index}
                 onMouseEnter={() => setHoveredIndex(index)}
                 onMouseLeave={() => setHoveredIndex(null)}
+                onTouchStart={() => handleTouchStart(index)}
                 className="relative"
               >
                 <TimelineItem
@@ -123,6 +149,5 @@ const Timeline = ({ id }) => {
     </section>
   );
 };
-
 
 export default Timeline;
