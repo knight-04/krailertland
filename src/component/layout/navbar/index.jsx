@@ -43,23 +43,26 @@ const Navbar = () => {
     <>
       <nav className="relative z-10 bg-white">
         <div className="container mx-auto px-4">
-          <div className="flex items-center py-2">
+          {/* Mobile Layout */}
+          <div className="md:hidden flex items-center justify-between py-4">
             <Logo />
-            {/* ใช้ ml-auto เพื่อดัน items ที่เหลือไปทางขวา */}
-            <div className="ml-auto flex items-center">
-              <div className="order-3 sm:order-2">
-                <NavLinks openRegisterModal={openRegisterModal} />
-              </div>
-              <div className="order-2 sm:order-3">
-                <AuthButtons openRegisterModal={openRegisterModal} />
-              </div>
+            <div className="flex items-center gap-4">
+              <AuthButtons openRegisterModal={openRegisterModal} />
+              <NavLinks openRegisterModal={openRegisterModal} />
             </div>
+          </div>
+
+          {/* Desktop Layout */}
+          <div className="hidden md:flex items-center justify-between py-4">
+            <Logo />
+            <NavLinks openRegisterModal={openRegisterModal} />
+            <AuthButtons openRegisterModal={openRegisterModal} />
           </div>
         </div>
       </nav>
 
       {/* Modals */}
-      <RegisterModal
+      < RegisterModal
         isOpen={showRegisterModal}
         onClose={() => setShowRegisterModal(false)}
         formData={formData}
